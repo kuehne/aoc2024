@@ -43,13 +43,13 @@ mod tests {
     use super::*;
     #[test]
     fn test_calculate() {
-        let result = calculate(&(read_to_string("../../resources/inputs/01.txt").expect("Test file not found.")));
+        let result = calculate(&(read_to_string("resources/tests/01.txt").expect("Test file not found.")));
         assert_eq!(result, 11);
     }
 
     #[test]
     fn test_calculate_variant() {
-        let result = calculate_variant(&(read_to_string("../../resources/inputs/01.txt").expect("Test file not found.")));
+        let result = calculate_variant(&(read_to_string("resources/tests/01.txt").expect("Test file not found.")));
         assert_eq!(result, 31);
     }
 }
