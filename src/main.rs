@@ -3,19 +3,17 @@ mod days;
 use std::{env, fs};
 use crate::days::{one, two};
 
-const DEFAULT_PATH: &str = "resources/inputs/02.txt";
+const DEFAULT_PATH: &str = "02";
+const VARIANT_IS_DEFAULT: bool = true;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let input_path = match args.get(1) {
-        Some(t) => &format!("resources/inputs/{t}.txt"),
-        None => DEFAULT_PATH,
-    };
+    let default_day = String::from(DEFAULT_PATH);
+    let day = args.get(1).unwrap_or(&default_day);
+    let input_path = &format!("resources/inputs/{day}.txt");
     let contents = fs::read_to_string(input_path).expect("Something went wrong reading the file");
-    let is_variant = args.contains(&String::from("--variant"));
-    let result = match args.get(1) {
-        Some(day) => {
-            match day.as_str() {
+    let is_variant = VARIANT_IS_DEFAULT || args.contains(&String::from("--variant"));
+    let result = match day.as_str() {
                 "01" => match is_variant {
                     false => one::calculate(&contents),
                     true => one::calculate_variant(&contents),
@@ -24,12 +22,7 @@ fn main() {
                     false => two::calculate(&contents),
                     true => two::calculate_variant(&contents),
                 },
-                _ => 0
-            }
-        },
-        None => {
-            two::calculate_variant(&contents)
-        }
+                _ => -1
     };
     println!("Result: {}", result);
 }
