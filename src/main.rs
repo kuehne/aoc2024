@@ -22,7 +22,7 @@ fn main() {
             false => two::calculate(&contents),
             true => two::calculate_variant(&contents),
         },
-        _ => -1,
+        _ => panic!(format!("Day {} is not yet implemented", day)),
     };
     println!("Result: {}", result);
 }
