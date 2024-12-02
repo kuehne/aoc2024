@@ -1,10 +1,10 @@
 mod days;
 
-use crate::days::{one, two};
+use crate::days::{one, three, two};
 use std::{env, fs};
 
-const DEFAULT_PATH: &str = "02";
-const VARIANT_IS_DEFAULT: bool = true;
+const DEFAULT_PATH: &str = "03";
+const VARIANT_IS_DEFAULT: bool = false;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -22,7 +22,11 @@ fn main() {
             false => two::calculate(&contents),
             true => two::calculate_variant(&contents),
         },
-        _ => panic!(format!("Day {} is not yet implemented", day)),
+        "03" => match is_variant {
+            false => three::calculate(&contents),
+            true => three::calculate_variant(&contents),
+        },
+        _ => panic!("Day {} is not yet implemented", day),
     };
     println!("Result: {}", result);
 }
