@@ -4,7 +4,7 @@ use crate::days::{one, three, two};
 use std::{env, fs};
 
 const DEFAULT_PATH: &str = "03";
-const VARIANT_IS_DEFAULT: bool = false;
+const VARIANT_IS_DEFAULT: bool = true;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
