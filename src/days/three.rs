@@ -1,4 +1,5 @@
 use regex::Regex;
+use std::collections::BTreeSet;
 
 const MULT_RULE: &str = r"mul\(([0-9]{1,3}),([0-9]{1,3})\)";
 const DO_RULE: &str = r"do\(\)";
@@ -20,32 +21,22 @@ pub fn calculate_variant(input: &str) -> i64 {
     let mut do_indices = re_do
         .find_iter(input)
         .map(|m| m.start())
-        .collect::<Vec<_>>();
+        .collect::<BTreeSet<usize>>();
     let re_dont = Regex::new(DONT_RULE).unwrap();
     let mut dont_indices = re_dont
         .find_iter(input)
         .map(|m| m.start())
-        .collect::<Vec<usize>>();
-    dont_indices.sort();
-    do_indices.sort();
+        .collect::<BTreeSet<usize>>();
     let mut res: i64 = 0;
     for found_match in &matches {
         let index = found_match.start();
-        let do_index = *do_indices
-            .iter()
-            .filter(|&i| i < &index)
-            .last()
-            .unwrap_or(&usize::MIN);
-        let dont_index = *dont_indices
-            .iter()
-            .filter(|&i| i < &index)
-            .last()
-            .unwrap_or(&usize::MIN);
+        let do_index = *do_indices.range(..index).last().unwrap_or(&0);
+        let dont_index = *dont_indices.range(..index).last().unwrap_or(&0);
         if do_index >= dont_index {
             res += calculate(found_match.as_str());
         }
-        do_indices.retain(|i| i >= &do_index);
-        dont_indices.retain(|i| i >= &dont_index);
+        do_indices = do_indices.split_off(&do_index);
+        dont_indices = dont_indices.split_off(&dont_index);
     }
     res
 }
