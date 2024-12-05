@@ -1,9 +1,9 @@
 mod days;
 
-use crate::days::{four, one, three, two};
+use crate::days::{five, four, one, three, two};
 use std::{env, fs};
 
-const DEFAULT_PATH: &str = "04";
+const DEFAULT_PATH: &str = "05";
 const VARIANT_IS_DEFAULT: bool = true;
 
 fn main() {
@@ -13,7 +13,12 @@ fn main() {
     let input_path = &format!("resources/inputs/{day}.txt");
     let contents = fs::read_to_string(input_path).expect("Something went wrong reading the file");
     let is_variant = VARIANT_IS_DEFAULT || args.contains(&String::from("--variant"));
-    let result = match day.as_str() {
+    let result = calculate(day, &contents, is_variant);
+    println!("Result: {}", result);
+}
+
+fn calculate(day: &String, contents: &str, is_variant: bool) -> i64 {
+    match day.as_str() {
         "01" => match is_variant {
             false => one::calculate(&contents),
             true => one::calculate_variant(&contents),
@@ -30,7 +35,10 @@ fn main() {
             false => four::calculate(&contents),
             true => four::calculate_variant(&contents),
         },
+        "05" => match is_variant {
+            false => five::calculate(&contents),
+            true => five::calculate_variant(&contents),
+        },
         _ => panic!("Day {} is not yet implemented", day),
-    };
-    println!("Result: {}", result);
+    }
 }
