@@ -1,9 +1,9 @@
 mod days;
 
-use crate::days::{five, four, one, seven, six, three, two};
+use crate::days::{eight, five, four, one, seven, six, three, two};
 use std::{env, fs};
 
-const DEFAULT_PATH: &str = "07";
+const DEFAULT_PATH: &str = "08";
 const VARIANT_IS_DEFAULT: bool = true;
 
 fn main() {
@@ -46,6 +46,10 @@ fn calculate(day: &String, contents: &str, is_variant: bool) -> i64 {
         "07" => match is_variant {
             false => seven::calculate(&contents),
             true => seven::calculate_variant(&contents),
+        },
+        "08" => match is_variant {
+            false => eight::calculate(&contents),
+            true => eight::calculate_variant(&contents),
         },
         _ => panic!("Day {} is not yet implemented", day),
     }
